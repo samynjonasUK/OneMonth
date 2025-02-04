@@ -101,11 +101,17 @@
             height: 100%;
             opacity: 0;
             transition: opacity 1.5s ease-in-out, transform 1.5s ease-in-out;
-            background-size: 70% auto;
-            background-position: center;
-            background-color: rgba(0, 0, 0, 0.5); /* Darker overlay */
-            background-repeat: no-repeat;
-            filter: blur(2px); /* Optional: adds a subtle blur to the images */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .slide-image {
+            max-width: 70%;  /* Prevents horizontal images from filling the screen */
+            max-height: 80vh; /* Ensures vertical images don’t get cut off */
+            object-fit: contain;
+            border-radius: 15px; /* Optional: soft edges */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.8);
         }
 
         .slideshow.active {
@@ -116,7 +122,7 @@
 
         .caption {
             position: absolute;
-            bottom: 20px;
+            bottom: 5%;
             left: 50%;
             transform: translateX(-50%);
             color: white;
@@ -269,16 +275,20 @@
             });
         }
 
-        function initSlideshow() 
-        {
+        function initSlideshow() {
             preloadImages();
             images.forEach((img, index) => {
                 const slide = document.createElement('div');
                 slide.className = 'slideshow';
-                slide.style.backgroundImage = `url(img/${img.file})`;
-                slide.setAttribute('loading', 'lazy');
+            
+                const imageElement = document.createElement('img');
+                imageElement.src = `img/${img.file}`;
+                imageElement.alt = img.caption;
+                imageElement.className = 'slide-image';
+            
+                slide.appendChild(imageElement);
                 container.insertBefore(slide, caption);
-                
+            
                 const dot = document.createElement('div');
                 dot.className = 'nav-dot';
                 dot.addEventListener('click', () => {
@@ -290,6 +300,7 @@
             showSlide(0);
             if (autoScrollEnabled) startAutoCycle();
         }
+
 
         function typeWriterEffect(captionText) 
         {

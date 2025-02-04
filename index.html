@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Our First Month 💖</title>
+    <title>Our Month Together</title>
     <style>
         * {
             margin: 0;
@@ -12,146 +12,233 @@
         }
 
         body {
-            font-family: 'Dancing Script', cursive;
-            background: linear-gradient(45deg, #ff9a9e, #fad0c4);
-            color: #6d2c41;
-        }
-
-        .header {
-            text-align: center;
-            padding: 2rem;
-            background: rgba(255, 255, 255, 0.8);
-            margin-bottom: 2rem;
-        }
-
-        .gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1rem;
-            padding: 1rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .gallery-item {
-            position: relative;
+            font-family: 'Helvetica', sans-serif;
+            background: #2f2d2d;
+            height: 100vh;
             overflow: hidden;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s ease;
+            color: #fff;
         }
 
-        .gallery-item:hover {
-            transform: scale(1.03);
+        .container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
         }
 
-        .gallery-item img {
-            width: 100%;
-            height: 300px;
-            object-fit: cover;
-            display: block;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
+        .slideshow {
+            position: absolute;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
         }
 
-        .modal-content {
-            max-width: 90%;
-            max-height: 90%;
-            border-radius: 10px;
+        .slideshow.active {
+            opacity: 1;
         }
 
-        .close {
+        .caption {
+            position: absolute;
+            bottom: 5%;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #333;
+            font-size: 1.2rem;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 8px 20px;
+            border-radius: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-dots {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+        }
+
+        .nav-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .nav-dot.active {
+            background: rgba(0, 0, 0, 0.6);
+        }
+
+        .controls {
             position: absolute;
             top: 20px;
-            right: 30px;
-            color: white;
-            font-size: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #fff;
+            font-size: 1rem;
+            display: flex;
+            gap: 10px;
+        }
+
+        .checkbox-label {
+            font-size: 1rem;
+        }
+
+        .checkbox {
             cursor: pointer;
         }
-
-        .heart {
-            position: fixed;
-            animation: float 3s infinite;
-            opacity: 0.7;
-        }
-
-        @keyframes float {
-            0% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
-            100% { transform: translateY(0); }
-        }
-
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Open+Sans&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="header">
-        <h1>One Month of Wonderful Memories 💕</h1>
-        <p>Every moment with you is special...</p>
-    </div>
+    <div class="container">
+        <div class="caption" id="caption">Our Happy Moments</div>
+        <div class="nav-dots" id="navDots"></div>
 
-    <div class="gallery">
-        <!-- Replace these image sources with your own photos -->
-        <div class="gallery-item">
-            <img src="your-photo-1.jpg" alt="Our Memory 1" onclick="openModal(this.src)">
+        <!-- Controls for shuffle -->
+        <div class="controls">
+            <label class="checkbox-label">
+                Auto Scroll
+                <input type="checkbox" class="checkbox" id="AutoScrollCheckbox" checked>
+            </label>
         </div>
-        <div class="gallery-item">
-            <img src="your-photo-2.jpg" alt="Our Memory 2" onclick="openModal(this.src)">
-        </div>
-        <div class="gallery-item">
-            <img src="your-photo-3.jpg" alt="Our Memory 3" onclick="openModal(this.src)">
-        </div>
-        <!-- Add more images as needed -->
-    </div>
-
-    <div id="modal" class="modal">
-        <span class="close" onclick="closeModal()">&times;</span>
-        <img class="modal-content" id="modal-img">
     </div>
 
     <script>
-        function openModal(src) {
-            document.getElementById('modal').style.display = 'flex';
-            document.getElementById('modal-img').src = src;
-        }
+        let currentSlide = 0;
+        let timer; // Store the interval timer
+        let AutoScrollEnabled = true; // Default autoscroll enabled
+        let sunset_images = [
+            { file: 'image0.jpeg', caption: 'Making Memories' },
+            { file: 'image1.jpeg', caption: 'Making Memories' },
+            { file: 'image2.jpeg', caption: 'Making Memories' },
+            { file: 'image3.jpeg', caption: 'Making Memories' },
+            { file: 'image4.jpeg', caption: 'Making Memories' },
+            { file: 'image5.jpeg', caption: 'Making Memories' },
+            { file: 'image6.jpeg', caption: 'Making Memories' },
+            { file: 'image7.jpeg', caption: 'Making Memories' },
+            { file: 'image8.jpeg', caption: 'Making Memories' },
+            { file: 'image9.jpeg', caption: 'Making Memories' },
+            // Add all other images here manually
+        ];
 
-        function closeModal() {
-            document.getElementById('modal').style.display = 'none';
-        }
+        let dated_images = [
+            { file: 'image0.jpeg', caption: 'Making Memories' },
+            { file: 'image1.jpeg', caption: 'Making Memories' },
+            { file: 'image2.jpeg', caption: 'Making Memories' },
+            { file: 'image3.jpeg', caption: 'Making Memories' },
+            { file: 'image4.jpeg', caption: 'Making Memories' },
+            { file: 'image5.jpeg', caption: 'Making Memories' },
+            { file: 'image6.jpeg', caption: 'Making Memories' },
+            { file: 'image7.jpeg', caption: 'Making Memories' },
+            { file: 'image8.jpeg', caption: 'Making Memories' },
+            { file: 'image9.jpeg', caption: 'Making Memories' }
+        ];
 
-        // Close modal when clicking outside the image
-        window.onclick = function(event) {
-            if (event.target.className === 'modal') {
-                closeModal();
+        const container = document.querySelector('.container');
+        const caption = document.getElementById('caption');
+        const navDots = document.getElementById('navDots');
+        const autoScrollCheckbox = document.getElementById('AutoScrollCheckbox');
+
+        // Initialize slideshow
+        function initSlideshow() 
+        {
+            // Create slides
+            dated_images.forEach((img, index) => {
+                const slide = document.createElement('div');
+                slide.className = 'slideshow';
+                slide.style.backgroundImage = `url(images/${img.file})`;  // Load images from 'images/' folder
+                container.insertBefore(slide, caption);
+            
+                // Create navigation dots
+                const dot = document.createElement('div');
+                dot.className = 'nav-dot';
+                dot.addEventListener('click', () => {
+                    showSlide(index);
+                    resetAutoCycle();  // Reset the timer when manually changing slide
+                });
+                navDots.appendChild(dot);
+            });
+            
+            // Show first slide
+            showSlide(0);
+
+            // Check auto scroll checkbox
+            if (AutoScrollEnabled) 
+            {
+                startAutoCycle();
             }
         }
 
-        // Create floating hearts
-        function createHeart() {
-            const heart = document.createElement('div');
-            heart.innerHTML = '❤️';
-            heart.className = 'heart';
-            heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.animationDuration = Math.random() * 3 + 2 + 's';
-            document.body.appendChild(heart);
-            
-            setTimeout(() => {
-                heart.remove();
-            }, 5000);
+        // Shuffle array (if you want to randomize the order)
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
         }
 
-        setInterval(createHeart, 300);
+        // Show a specific slide
+        function showSlide(index) {
+            const slides = document.querySelectorAll('.slideshow');
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (index + dated_images.length) % dated_images.length;
+            slides[currentSlide].classList.add('active');
+            
+            // Update caption
+            caption.textContent = dated_images[currentSlide].caption;
+            
+            // Update navigation dots
+            document.querySelectorAll('.nav-dot').forEach((dot, i) => {
+                dot.classList.toggle('active', i === currentSlide);
+            });
+        }
+
+        // Start auto cycling of slides
+        function startAutoCycle() 
+        {
+            timer = setInterval(() => {
+                showSlide(currentSlide + 1);
+            }, 5000); // Change image every 5 seconds
+        }
+
+        // Reset the auto-cycle timer (clear the previous one and start a new one)
+        function resetAutoCycle() 
+        {
+            clearInterval(timer);  // Stop the current interval
+            startAutoCycle();      // Restart the interval
+        }
+
+        // Start loading images
+        initSlideshow();
+
+        // Add keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') {
+                showSlide(currentSlide - 1);
+                resetAutoCycle();  // Reset the timer when manually changing slide
+            }
+            if (e.key === 'ArrowRight') {
+                showSlide(currentSlide + 1);
+                resetAutoCycle();  // Reset the timer when manually changing slide
+            }
+        });
+
+        // Listen for shuffle checkbox change
+        autoScrollCheckbox.addEventListener('change', () => {
+            AutoScrollEnabled = autoScrollCheckbox.checked;            
+            clearInterval(timer);
+            if (AutoScrollEnabled) 
+            {
+                startAutoCycle();
+            }
+        });
     </script>
 </body>
 </html>

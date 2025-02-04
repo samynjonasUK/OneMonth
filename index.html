@@ -1,434 +1,568 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Our Month Together</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>You & Me</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        body {
-            font-family: 'Helvetica', sans-serif;
-            background: linear-gradient(to top, #2f4f4f, #0d1b2a); /* Night sky gradient */
-            height: 100vh;
-            overflow: hidden;
-            color: #fff;
-            text-align: center;
-            position: relative;
-        }
+    body {
+      font-family: 'Helvetica', sans-serif;
+      background: linear-gradient(to top, #2f4f4f, #0d1b2a);
+      height: 100vh;
+      overflow: hidden;
+      color: #fff;
+      text-align: center;
+      position: relative;
+    }
 
-        .container {
-            position: relative;
-            width: 100vw;
-            height: 100vh;
-        }
+    .container {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+    }
 
-        .stars {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('https://www.transparenttextures.com/patterns/stardust.png');
-            background-size: cover;
-            pointer-events: none;
-            animation: starry 300s infinite linear;
-            filter: blur(2px); /* Optional: softens the stars background */
-        }
+    .stars {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('https://www.transparenttextures.com/patterns/stardust.png');
+      background-size: cover;
+      pointer-events: none;
+      animation: starry 300s infinite linear;
+      filter: blur(2px);
+    }
 
-        @keyframes starry {
-            0% {
-                transform: translate(0, 0);
-            }
-            100% {
-                transform: translate(100vw, 100vh);
-            }
-        }
+    @keyframes starry {
+      0% {
+        transform: translate(0, 0);
+      }
+      100% {
+        transform: translate(100vw, 100vh);
+      }
+    }
 
-        .moon {
-            position: absolute;
-            top: 20%;
-            left: 110%;
-            width: 100px;
-            height: 100px;
-            background: #f5e1a4;
-            border-radius: 50%;
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
-            animation: moonMove 30s infinite linear;
-        }
+    .moon {
+      position: absolute;
+      top: 20%;
+      left: 110%;
+      width: 100px;
+      height: 100px;
+      background: #f5e1a4;
+      border-radius: 50%;
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+      animation: moonMove 30s infinite linear;
+    }
 
-        @keyframes moonMove {
-            0% {
-                transform: translateX(0);
-            }
-            100% {
-                transform: translateX(-120vw);
-            }
-        }
+    @keyframes moonMove {
+      0% {
+        transform: translateX(0);
+      }
+      100% {
+        transform: translateX(-120vw);
+      }
+    }
 
-        .clouds {
-            position: absolute;
-            top: 50%;
-            left: 0;
-            width: 100%;
-            height: 50%;
-            background: url('path/to/clouds.png') repeat-x;
-            animation: moveClouds 180s infinite linear;
-        }
+    .clouds {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      width: 100%;
+      height: 50%;
+      background: url('path/to/clouds.png') repeat-x;
+      animation: moveClouds 180s infinite linear;
+    }
 
-        @keyframes moveClouds {
-            0% {
-                transform: translateX(0);
-            }
-            100% {
-                transform: translateX(-100%);
-            }
-        }
+    @keyframes moveClouds {
+      0% {
+        transform: translateX(0);
+      }
+      100% {
+        transform: translateX(-100%);
+      }
+    }
 
-        .container {
-            position: relative;
-            width: 100vw;
-            height: 100vh;
-        }
+    .slideshow {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transition: opacity 1.5s ease-in-out, transform 1.5s ease-in-out;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
-        .slideshow {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            opacity: 0;
-            transition: opacity 1.5s ease-in-out, transform 1.5s ease-in-out;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+    .slide-image {
+      width: auto;
+      height: auto;
+      max-width: 90vh;  /* Prevents horizontal images from filling the screen */
+      max-height: 80vh; /* Ensures vertical images don’t get cut off */
+      object-fit: contain;
+      border-radius: 15px; /* Optional: soft edges */
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.8);
+    }
 
-        .slide-image {
-            width: auto;
-            height: auto;
-            max-width: 90vh;  /* Prevents horizontal images from filling the screen */
-            max-height: 80vh; /* Ensures vertical images don’t get cut off */
-            object-fit: contain;
-            border-radius: 15px; /* Optional: soft edges */
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.8);
-        }
+    .slideshow.active {
+      opacity: 1;
+      transform: scale(1.05);
+      filter: blur(0); /* Removes blur when the image is active */
+    }
 
-        .slideshow.active {
-            opacity: 1;
-            transform: scale(1.05);
-            filter: blur(0); /* Removes blur when the image is active */
-        }
+    .caption {
+      position: absolute;
+      bottom: 5%;
+      left: 50%;
+      transform: translateX(-50%);
+      color: white;
+      font-size: 1.6rem;
+      font-weight: bold;
+      background: rgba(0, 0, 0, 0.5);
+      padding: 12px 20px;
+      border-radius: 25px;
+      box-shadow: 0 2px 10px rgba(161, 64, 64, 0.8);
+      text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+    }
 
-        .caption {
-            position: absolute;
-            bottom: 5%;
-            left: 50%;
-            transform: translateX(-50%);
-            color: white;
-            font-size: 1.6rem;
-            font-weight: bold;
-            background: rgba(0, 0, 0, 0.5);
-            padding: 12px 20px;
-            border-radius: 25px;
-            box-shadow: 0 2px 10px rgba(161, 64, 64, 0.8);
-            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
-        }
+    .nav-dots {
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 10px;
+    }
 
-        .nav-dots {
-            position: absolute;
-            bottom: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 10px;
-        }
+    .nav-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: rgba(255, 255, 0, 0.4);
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.3s ease;
+    }
 
-        .nav-dot {
-            width: 14px;
-            height: 14px;
-            border-radius: 50%;
-            background: rgba(255, 255, 0, 0.4);
-            cursor: pointer;
-            transition: background 0.3s ease, transform 0.3s ease;
-        }
+    .nav-dot.active {
+      background: rgba(255, 255, 255, 0.9);
+      transform: scale(1.2);
+    }
 
-        .nav-dot.active {
-            background: rgba(255, 255, 255, 0.9);
-            transform: scale(1.2);
-        }
+    .navigation-buttons {
+      position: absolute;
+      top: 50%;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      transform: translateY(-50%);
+      z-index: 10;
+    }
 
-        .navigation-buttons {
-            position: absolute;
-            top: 50%;
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            transform: translateY(-50%);
-            z-index: 10;
-        }
+    .navigation-buttons button {
+      background: rgba(0, 0, 0, 0.6);
+      border: none;
+      padding: 14px 24px;
+      color: #fff;
+      font-size: 2.5rem;
+      font-weight: bold;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.3s ease;
+      opacity: 0.7;
+    }
 
-        .navigation-buttons button {
-            background: rgba(0, 0, 0, 0.6);
-            border: none;
-            padding: 14px 24px;
-            color: #fff;
-            font-size: 2.5rem;
-            font-weight: bold;
-            border-radius: 50%;
-            cursor: pointer;
-            transition: background 0.3s ease, transform 0.3s ease;
-            opacity: 0.7;
-        }
+    @media (max-width: 600px) {
+      .navigation-buttons button {
+        padding: 20px 30px;
+        font-size: 3rem;
+      }
+    }
 
-        @media (max-width: 600px) {
-            .navigation-buttons button {
-                padding: 20px 30px;
-                font-size: 3rem;
-            }
-        }
+    .navigation-buttons button:hover {
+      background: rgba(0, 0, 0, 0.9);
+      transform: scale(1.1);
+      opacity: 1;
+    }
 
-        .navigation-buttons button:hover {
-            background: rgba(0, 0, 0, 0.9);
-            transform: scale(1.1);
-            opacity: 1;
-        }
+    .navigation-buttons button:focus {
+      outline: none;
+    }
 
-        .navigation-buttons button:focus {
-            outline: none;
-        }
+    .controls label {
+      font-size: 1rem;
+      color: #fff;
+      font-weight: bold;
+    }
 
-        .controls label {
-            font-size: 1rem;
-            color: #fff;
-            font-weight: bold;
-        }
+    .controls {
+      position: absolute;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      pointer-events: none;
+    }
 
-        .controls {
-            position: absolute;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            opacity: 0;
-            transition: opacity 0.5s ease;
-            pointer-events: none;
-        }
+    .controls.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
 
-        .controls.visible {
-            opacity: 1;
-            pointer-events: auto;
-        }
+    input[type="checkbox"] {
+      transform: scale(1.3);
+      cursor: pointer;
+    }
 
-        input[type="checkbox"] {
-            transform: scale(1.3);
-            cursor: pointer;
-        }
+    .star {
+      position: absolute;
+      border-radius: 50%;
+      background-color: white;
+      animation: twinkle 1.5s infinite alternate;
+    }
 
-        .star {
-            position: absolute;
-            border-radius: 50%;
-            background-color: white;
-            animation: twinkle 1.5s infinite alternate;
-        }
+    @keyframes twinkle {
+      0% {
+        opacity: 0.3;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
 
-        @keyframes twinkle {
-            0% {
-                opacity: 0.3;
-            }
-            100% {
-                opacity: 1;
-            }
-        }
-
-    </style>
+    .gallery-buttons {
+      position: absolute;
+      top: 3%;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 15px;
+    }
+    
+    .gallery-button {
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      padding: 10px 20px;
+      color: #fff;
+      font-size: 1.2rem;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    
+    .gallery-button:hover {
+      background: rgba(255, 255, 255, 0.5);
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <div class="stars"></div> <!-- Starry background -->
-        <div class="clouds"></div> <!-- Clouds moving across the sky -->
-        <div class="moon"></div> <!-- Moon in the sky -->
-        
-        <div class="caption" id="caption">Our Happy Moments</div>
-        <div class="nav-dots" id="navDots"></div>
-        <div class="controls">
-            <label>
-                Auto Scroll
-                <input type="checkbox" id="AutoScrollCheckbox" checked>
-            </label>
-        </div>
-        <div class="navigation-buttons">
-            <button id="prevBtn">&lt;</button>
-            <button id="nextBtn">&gt;</button>
-        </div>
+  <div class="container">
+    <div class="stars"></div> <!-- Starry background -->
+    <div class="clouds"></div> <!-- Clouds moving across the sky -->
+    <div class="moon"></div> <!-- Moon in the sky -->
+    
+    <div class="caption" id="caption">Our Happy Moments</div>
+    <div class="nav-dots" id="navDots"></div>
+    <div class="controls">
+      <label>
+        Auto Scroll
+        <input type="checkbox" id="AutoScrollCheckbox" unchecked>
+      </label>
     </div>
+    <div class="navigation-buttons">
+      <button id="prevBtn">&lt;</button>
+      <button id="nextBtn">&gt;</button>
+    </div>
+    <div class="gallery-buttons">
+      <button class="gallery-button" onclick="openGallery('main')">💖 Our Story</button>
+      <button class="gallery-button" onclick="openGallery('sunset')">🌅 Sunset Moments</button>
+      <button class="gallery-button" onclick="openGallery('laughter')">😂 Laughter & Joy</button>
+    </div>
+  </div>
 
-    <script>
-        let currentSlide = 0;
-        let timer;
-        let scrollTimeMs = 5000;
-        let autoScrollEnabled = true;
-        let typingInterval;
-        let hideTimeout;
-        let controlDissapearTime = 3000;
+  <script>
+    let currentSlide = 0;
+    let timer;
+    let autoScrollEnabled = true;
+    let typingInterval;
+    let hideTimeout;
+    let scrollTimeMs = 10000;
+    let controlDissapearTime = 3000;
 
-        let images = [
-            { file: 'image0.JPEG', caption: 'Our First Adventure' },
-            { file: 'image1.JPEG', caption: 'A Special Moment' },
-            { file: 'image2.JPEG', caption: 'Laughter and Love' },
-            { file: 'image3.JPEG', caption: 'Unforgettable Day' },
-            { file: 'image4.JPEG', caption: 'Smiles & Sunshine' },
-            { file: 'image5.JPEG', caption: 'Romantic Evening' },
-            { file: 'image6.JPEG', caption: 'Cherished Times' },
-            { file: 'image7.JPEG', caption: 'Pure Happiness' },
-            { file: 'image8.JPEG', caption: 'Dreamy Escapade' },
-            { file: 'image9.JPEG', caption: 'Forever Together' }
-        ];
+    let images;
 
-        const container = document.querySelector('.container');
-        const caption = document.getElementById('caption');
-        const navDots = document.getElementById('navDots');
-        const autoScrollCheckbox = document.getElementById('AutoScrollCheckbox');
-        const prevBtn = document.getElementById('prevBtn');
-        const nextBtn = document.getElementById('nextBtn');
-        const controls = document.querySelector('.controls');
+    let mainImages = [
+      { file: 'image0.JPEG', caption: 'Our First Adventure' },
+      { file: 'image1.JPEG', caption: 'A Special Moment' },
+      { file: 'image2.JPEG', caption: 'Laughter and Love' },
+      { file: 'image3.JPEG', caption: 'Unforgettable Day' },
+      { file: 'image4.JPEG', caption: 'Smiles & Sunshine' },
+      { file: 'image5.JPEG', caption: 'Romantic Evening' },
+      { file: 'image6.JPEG', caption: 'Cherished Times' },
+      { file: 'image7.JPEG', caption: 'Pure Happiness' },
+      { file: 'image8.JPEG', caption: 'Dreamy Escapade' },
+      { file: 'image9.JPEG', caption: 'Forever Together' }
+    ];
 
+    let sunsetImages = [
+      { file: 'sunset/image0.JPEG', caption: 'The sunset looks great!' },
+      { file: 'sunset/image1.JPEG', caption: 'You look amazing!' },
+      { file: 'sunset/image2.JPEG', caption: 'Dance break' },
+      { file: 'sunset/image3.JPEG', caption: 'Waw' },
+      { file: 'sunset/image4.JPEG', caption: 'Cute' },
+      { file: 'sunset/image5.JPEG', caption: 'Dance break' },
+      { file: 'sunset/image6.JPEG', caption: 'Model' },
+      { file: 'sunset/image7.JPEG', caption: 'CUTE' },
+      { file: 'sunset/image8.JPEG', caption: 'CUTER' },
+      { file: 'sunset/image9.JPEG', caption: 'Wedding picture moment' },
+      { file: 'sunset/image10.JPEG', caption: 'Not sure whats happening here' },
+      { file: 'sunset/image11.JPEG', caption: 'MODEL POSE' },
+      { file: 'sunset/image12.JPEG', caption: 'OW YEAH' },
+      { file: 'sunset/image13.JPEG', caption: 'CUTEST' },
+      { file: 'sunset/image14.JPEG', caption: 'We are models damn' }
+    ];
+    
+    let laughterImages = [
+      { file: 'fun/image0.JPEG', caption: 'Ur short' },
+      { file: 'fun/image1.JPEG', caption: '😮' },
+      { file: 'fun/image2.JPEG', caption: 'SELFIE' },
+      { file: 'fun/image3.JPEG', caption: '📸' },
+      { file: 'fun/image4.JPEG', caption: 'Traveling init' },
+      { file: 'fun/image5.JPEG', caption: 'I am not judging...' },
+      { file: 'fun/image6.JPEG', caption: 'I SWEAR I AM NOT' },
+      { file: 'fun/image7.JPEG', caption: 'CUTE' },
+      { file: 'fun/image8.JPEG', caption: 'Ur drunk' },
+      { file: 'fun/image9.JPEG', caption: 'No idea whats going on here' },
+      { file: 'fun/image10.JPEG', caption: '✌️' },
+      { file: 'fun/image11.JPEG', caption: 'Me looking at my future' },
+      { file: 'fun/image12.JPEG', caption: 'HOODIE TIME' },
+      { file: 'fun/image13.JPEG', caption: 'HOODIE TIME v2?' },
+      { file: 'fun/image14.JPEG', caption: 'AAH NOT SO CLOSE' },
+      { file: 'fun/image15.JPEG', caption: 'DONT DROWN' },
+      { file: 'fun/image16.JPEG', caption: 'Were drunk' },
+      { file: 'fun/image17.JPEG', caption: 'Yep for sure' },
+      { file: 'fun/image18.JPEG', caption: 'PHOTOSHOOT' },
+      { file: 'fun/image19.JPEG', caption: 'PAW' },
+      { file: 'fun/image20.JPEG', caption: 'PAW' },
+      { file: 'fun/image21.JPEG', caption: 'BOOM' },
+      { file: 'fun/image22.JPEG', caption: 'Did you just burb?' },
+      { file: 'fun/image23.JPEG', caption: 'Did you?' },
+      { file: 'fun/image24.JPEG', caption: 'YEAH YOU DID!!' }
+    ];
 
-        function preloadImages() 
-        {
-            images.forEach(img => {
-                const image = new Image();
-                image.src = `img/${img.file}`;
-            });
-        }
+    const container = document.querySelector('.container');
+    const caption = document.getElementById('caption');
+    const navDots = document.getElementById('navDots');
+    const autoScrollCheckbox = document.getElementById('AutoScrollCheckbox');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const controls = document.querySelector('.controls');
 
-        function initSlideshow() {
-            preloadImages();
-            images.forEach((img, index) => {
-                const slide = document.createElement('div');
-                slide.className = 'slideshow';
-            
-                const imageElement = document.createElement('img');
-                imageElement.src = `img/${img.file}`;
-                imageElement.alt = img.caption;
-                imageElement.className = 'slide-image';
-            
-                slide.appendChild(imageElement);
-                container.insertBefore(slide, caption);
-            
-                const dot = document.createElement('div');
-                dot.className = 'nav-dot';
-                dot.addEventListener('click', () => {
-                    showSlide(index);
-                    resetAutoCycle();
-                });
-                navDots.appendChild(dot);
-            });
-            showSlide(0);
-            if (autoScrollEnabled) startAutoCycle();
-        }
+    function preloadImages() 
+    {
+      mainImages.forEach(img => {
+        const image = new Image();
+        image.src = `img/${img.file}`;
+      });
 
+      sunsetImages.forEach(img => {
+        const image = new Image();
+        image.src = `img/${img.file}`;
+      });
 
-        function typeWriterEffect(captionText) 
-        {
-            let i = 0;
-            caption.textContent = '';  // Clear previous text
+      laughterImages.forEach(img => {
+        const image = new Image();
+        image.src = `img/${img.file}`;
+      });
+    }
 
-            // Clear any ongoing typing effect
-            if (typingInterval) {
-                clearInterval(typingInterval);
-            }
+    function initSlideshow() 
+    {
+        preloadImages();
+        createStars(100); 
+        images = mainImages;
+        initImageList()     
+        resetAutoCycle()
+    }
+
+    function initImageList() 
+    {
+      resetAutoCycle(); // Reset the auto cycle
+
+      // Remove previous slides and navigation dots
+      document.querySelectorAll('.slideshow').forEach(slide => slide.remove());
+      document.querySelectorAll('.nav-dot').forEach(dot => dot.remove());
+
+      images.forEach((img, index) => 
+      {
+        const slide = document.createElement('div');
+        slide.className = 'slideshow';
+
+        const imageElement = document.createElement('img');
+        imageElement.src = `img/${img.file}`;
+        imageElement.alt = img.caption;
+        imageElement.className = 'slide-image';
         
-            typingInterval = setInterval(() => {
-                caption.textContent += captionText[i];
-                i++;
-                if (i === captionText.length) {
-                    clearInterval(typingInterval);  // Stop the typing animation once done
-                }
-            }, 100);  // Adjust this value for speed
-        }
+        slide.appendChild(imageElement);
+        container.insertBefore(slide, caption);
+        
+        const dot = document.createElement('div');
+        dot.className = 'nav-dot';
+        dot.addEventListener('click', () => {
+          showSlide(index);
+          resetAutoCycle();
+        });
+        navDots.appendChild(dot);
+      });
 
-        function showSlide(index) 
+      // Delay showing the first slide so it can fade in smoothly
+      setTimeout(() => {
+        showSlide(0);
+      }, 100);
+    }
+
+    function typeWriterEffect(captionText) 
+    {
+      let i = 0;
+      caption.textContent = '';  // Clear previous text
+
+      // Clear any ongoing typing effect
+      if (typingInterval) 
+      {
+        clearInterval(typingInterval);
+      }
+
+      typingInterval = setInterval(() => {
+        caption.textContent += captionText[i];
+        i++;
+        if (i === captionText.length)
         {
-            // Take all the slides
-            const slides = document.querySelectorAll('.slideshow');
-
-            // Remove the 'active' class from the current slide
-            slides[currentSlide].classList.remove('active');
-            
-            // Update the current slide with the newly selected index
-            currentSlide = (index + images.length) % images.length;
-            
-            // Add the 'active' class to the new slide
-            slides[currentSlide].classList.add('active');
-
-            // Call the typewriter effect for the new caption
-            typeWriterEffect(images[currentSlide].caption);
-            
-            // Update the dots at the bottom of the screen
-            document.querySelectorAll('.nav-dot').forEach((dot, i) => {
-                dot.classList.toggle('active', i === currentSlide);
-            });
+          clearInterval(typingInterval);  // Stop the typing animation once done
         }
+      }, 100);  // Adjust this value for speed
+    }
 
-        function startAutoCycle() 
+    function showSlide(index) 
+    {
+      const slides = document.querySelectorAll('.slideshow');
+      slides[currentSlide].classList.remove('active');
+
+      currentSlide = (index + images.length) % images.length;
+
+      slides[currentSlide].classList.add('active');
+      typeWriterEffect(images[currentSlide].caption);
+
+      // Update the dots at the bottom of the screen
+      document.querySelectorAll('.nav-dot').forEach((dot, i) => {
+        dot.classList.toggle('active', i === currentSlide);
+      });
+    }
+
+    function startAutoCycle() 
+    {
+      if (autoScrollEnabled) 
+      {
+        timer = setInterval(() => {
+          showSlide(currentSlide + 1);
+        }, scrollTimeMs);
+      }
+    }
+    
+    function resetAutoCycle() 
+    {
+        clearInterval(timer); // Stop any existing intervals
+        autoScrollEnabled = autoScrollCheckbox.checked; // Update autoScrollEnabled based on checkbox
+
+        if (autoScrollEnabled) 
         {
-            timer = setInterval(() => {
-                showSlide(currentSlide + 1);
-            }, scrollTimeMs);
+            startAutoCycle(); // Start the new cycle if auto-scroll is enabled
+        }
+    }
+
+    function createStars(num) 
+    {
+      for (let i = 0; i < num; i++) {
+        let star = document.createElement("div");
+        star.className = "star";
+        star.style.width = star.style.height = `${Math.random() * 3 + 2}px`;
+        star.style.top = `${Math.random() * 100}vh`;
+        star.style.left = `${Math.random() * 100}vw`;
+        star.style.animationDuration = `${Math.random() * 2 + 1.5}s`;
+        document.body.appendChild(star);
+      }
+    }
+
+    // Add event listeners to the controls
+    autoScrollCheckbox.addEventListener('change', resetAutoCycle);
+    prevBtn.addEventListener('click', () => {
+      showSlide(currentSlide - 1);
+      resetAutoCycle();
+    });
+    nextBtn.addEventListener('click', () => {
+      showSlide(currentSlide + 1);
+      resetAutoCycle();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') {
+        showSlide(currentSlide - 1);
+        resetAutoCycle();
+      }
+      if (e.key === 'ArrowRight') {
+        showSlide(currentSlide + 1);
+        resetAutoCycle();
+      }
+    });
+
+    document.addEventListener('mousemove', (e) => {
+      if (e.clientY < 100) {
+        controls.classList.add('visible');
+
+        clearTimeout(hideTimeout);
+        hideTimeout = setTimeout(() => {
+          controls.classList.remove('visible');
+        }, controlDissapearTime); // Hide after 3 seconds of inactivity
+      }
+    });
+
+    function openGallery(type) {
+      resetAutoCycle();
+
+      const currentActiveGallery = document.querySelector('.slideshow.active');
+      if (currentActiveGallery) {
+        currentActiveGallery.classList.remove('active');
+        currentActiveGallery.style.opacity = '0';  // Make the current gallery fade out
+      }
+
+      setTimeout(() => {
+        switch (type) {
+          case 'sunset':
+            images = sunsetImages;
+            break;
+          case 'laughter':
+            images = laughterImages;
+            break;
+          case 'main':
+            images = mainImages;
+            break;
         }
 
-        function resetAutoCycle() 
-        {
-            clearInterval(timer);            
-            autoScrollEnabled = autoScrollCheckbox.checked;            
-            if (autoScrollEnabled)
-            {
-                startAutoCycle();
-            } 
-        }
+        initImageList();
 
-        autoScrollCheckbox.addEventListener('change', () => {
-            resetAutoCycle();
-        });
+        setTimeout(() => {
+          const newGallery = document.querySelector('.slideshow');
+          newGallery.classList.add('active');
+        }, 100);
+      }, 1500);  // Matches the fade-out duration
+    }
 
-        prevBtn.addEventListener('click', () => {
-            showSlide(currentSlide - 1);
-            resetAutoCycle();
-        });
-
-        nextBtn.addEventListener('click', () => {
-            showSlide(currentSlide + 1);
-            resetAutoCycle();
-        });
-
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowLeft') 
-            {
-                showSlide(currentSlide - 1);
-                resetAutoCycle();
-            }
-            if (e.key === 'ArrowRight') 
-            {
-                showSlide(currentSlide + 1);
-                resetAutoCycle();
-            }
-        });
-
-        document.addEventListener('mousemove', (e) => {
-            if (e.clientY < 100) 
-            {
-                controls.classList.add('visible');
-            
-                clearTimeout(hideTimeout);
-                hideTimeout = setTimeout(() => {
-                    controls.classList.remove('visible');
-                }, controlDissapearTime); // Hide after 3 seconds of inactivity
-            }
-        });
-
-        initSlideshow();
-    </script>
+    initSlideshow();
+  </script>
 </body>
 </html>

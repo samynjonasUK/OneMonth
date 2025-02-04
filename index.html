@@ -562,6 +562,38 @@
       }, 1500);  // Matches the fade-out duration
     }
 
+
+    let touchStartX = 0;
+    let touchEndX = 0;
+    const swipeThreshold = 50; // Minimum distance for swipe to be registered
+
+    function handleTouchStart(event) {
+        touchStartX = event.touches[0].clientX;
+    }
+
+    function handleTouchMove(event) {
+        touchEndX = event.touches[0].clientX;
+    }
+
+    function handleTouchEnd() 
+    {
+        const swipeDistance = touchStartX - touchEndX;
+        if (swipeDistance > swipeThreshold) 
+        {
+            showSlide(currentSlide + 1); // Swipe left (next)
+        } else if (swipeDistance < -swipeThreshold) 
+        {
+            showSlide(currentSlide - 1); // Swipe right (previous)
+        }
+        resetAutoCycle();
+    }
+
+    // Attach event listeners to the slideshow container
+    const slideshowContainer = document.querySelector('.container');
+    slideshowContainer.addEventListener('touchstart', handleTouchStart);
+    slideshowContainer.addEventListener('touchmove', handleTouchMove);
+    slideshowContainer.addEventListener('touchend', handleTouchEnd);
+
     initSlideshow();
   </script>
 </body>

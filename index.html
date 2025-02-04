@@ -265,7 +265,7 @@
         {
             images.forEach(img => {
                 const image = new Image();
-                image.src = `images/${img.file}`;
+                image.src = `docs/assets/images/${img.file}`;
             });
         }
 
@@ -275,7 +275,7 @@
             images.forEach((img, index) => {
                 const slide = document.createElement('div');
                 slide.className = 'slideshow';
-                slide.style.backgroundImage = `url(images/${img.file})`;
+                slide.style.backgroundImage = `url(docs/assets/images/${img.file})`;
                 slide.setAttribute('loading', 'lazy');
                 container.insertBefore(slide, caption);
                 

@@ -103,10 +103,11 @@
     .slide-image {
       width: auto;
       height: auto;
-      max-width: 90vh;  /* Prevents horizontal images from filling the screen */
+      max-width: 80vh;  /* Prevents horizontal images from filling the screen */
       max-height: 80vh; /* Ensures vertical images don’t get cut off */
       object-fit: contain;
-      border-radius: 15px; /* Optional: soft edges */
+      border-radius: 15px;
+      margin: 5vh 5vw;
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.8);
     }
 
@@ -274,10 +275,6 @@
         Auto Scroll
         <input type="checkbox" id="AutoScrollCheckbox" unchecked>
       </label>
-    </div>
-    <div class="navigation-buttons">
-      <button id="prevBtn">&lt;</button>
-      <button id="nextBtn">&gt;</button>
     </div>
     <div class="gallery-buttons">
       <button class="gallery-button" onclick="openGallery('main')">💖 Our Story</button>
@@ -500,14 +497,6 @@
 
     // Add event listeners to the controls
     autoScrollCheckbox.addEventListener('change', resetAutoCycle);
-    prevBtn.addEventListener('click', () => {
-      showSlide(currentSlide - 1);
-      resetAutoCycle();
-    });
-    nextBtn.addEventListener('click', () => {
-      showSlide(currentSlide + 1);
-      resetAutoCycle();
-    });
 
     document.addEventListener('keydown', (e) => {
       if (e.key === 'ArrowLeft') {

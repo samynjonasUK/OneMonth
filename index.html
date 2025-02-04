@@ -13,10 +13,80 @@
 
         body {
             font-family: 'Helvetica', sans-serif;
-            background: #2f2d2d;
+            background: linear-gradient(to top, #2f4f4f, #0d1b2a); /* Night sky gradient */
             height: 100vh;
             overflow: hidden;
             color: #fff;
+            text-align: center;
+            position: relative;
+        }
+
+        .container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        .stars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://www.transparenttextures.com/patterns/stardust.png');
+            background-size: cover;
+            pointer-events: none;
+            animation: starry 300s infinite linear;
+            filter: blur(2px); /* Optional: softens the stars background */
+        }
+
+        @keyframes starry {
+            0% {
+                transform: translate(0, 0);
+            }
+            100% {
+                transform: translate(100vw, 100vh);
+            }
+        }
+
+        .moon {
+            position: absolute;
+            top: 20%;
+            left: 100%; /* Start the moon off-screen on the right */
+            width: 100px;
+            height: 100px;
+            background: #f5e1a4;
+            border-radius: 50%;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+            animation: moonMove 30s infinite linear;
+        }
+
+        @keyframes moonMove {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-100vw);
+            }
+        }
+
+        .clouds {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background: url('path/to/clouds.png') repeat-x;
+            animation: moveClouds 180s infinite linear;
+        }
+
+        @keyframes moveClouds {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
         }
 
         .container {
@@ -30,33 +100,38 @@
             width: 100%;
             height: 100%;
             opacity: 0;
-            transition: opacity 1.5s ease-in-out;
-            background-size: contain;
-            background-repeat: no-repeat;
+            transition: opacity 1.5s ease-in-out, transform 1.5s ease-in-out;
+            background-size: 70% auto;
             background-position: center;
+            background-color: rgba(0, 0, 0, 0.5); /* Darker overlay */
+            background-repeat: no-repeat;
+            filter: blur(2px); /* Optional: adds a subtle blur to the images */
         }
 
         .slideshow.active {
             opacity: 1;
+            transform: scale(1.05);
+            filter: blur(0); /* Removes blur when the image is active */
         }
 
         .caption {
             position: absolute;
-            bottom: 5%;
+            bottom: 20px;
             left: 50%;
             transform: translateX(-50%);
-            color: #333;
-            font-size: 1.2rem;
-            text-align: center;
-            background: rgba(255, 255, 255, 0.9);
-            padding: 8px 20px;
-            border-radius: 20px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            color: white;
+            font-size: 1.6rem;
+            font-weight: bold;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 12px 20px;
+            border-radius: 25px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
         }
 
         .nav-dots {
             position: absolute;
-            bottom: 20px;
+            bottom: 10px;
             left: 50%;
             transform: translateX(-50%);
             display: flex;
@@ -64,181 +139,245 @@
         }
 
         .nav-dot {
-            width: 12px;
-            height: 12px;
+            width: 14px;
+            height: 14px;
             border-radius: 50%;
-            background: rgba(0, 0, 0, 0.2);
+            background: rgba(255, 255, 0, 0.4);
             cursor: pointer;
-            transition: background 0.3s ease;
+            transition: background 0.3s ease, transform 0.3s ease;
         }
 
         .nav-dot.active {
-            background: rgba(0, 0, 0, 0.6);
+            background: rgba(255, 255, 255, 0.9);
+            transform: scale(1.2);
         }
 
-        .controls {
+        .navigation-buttons {
             position: absolute;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: #fff;
-            font-size: 1rem;
+            top: 50%;
+            width: 100%;
             display: flex;
-            gap: 10px;
+            justify-content: space-between;
+            transform: translateY(-50%);
+            z-index: 10;
         }
 
-        .checkbox-label {
+        .navigation-buttons button {
+            background: rgba(0, 0, 0, 0.6);
+            border: none;
+            padding: 12px 20px;
+            color: #fff;
+            font-size: 2rem;
+            font-weight: bold;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.3s ease;
+            opacity: 0.7;
+        }
+
+        .navigation-buttons button:hover {
+            background: rgba(0, 0, 0, 0.9);
+            transform: scale(1.1);
+            opacity: 1;
+        }
+
+        .navigation-buttons button:focus {
+            outline: none;
+        }
+
+        .controls label {
             font-size: 1rem;
+            color: #fff;
+            font-weight: bold;
         }
 
-        .checkbox {
+        input[type="checkbox"] {
+            transform: scale(1.3);
             cursor: pointer;
         }
+
+        .star {
+            position: absolute;
+            border-radius: 50%;
+            background-color: white;
+            animation: twinkle 1.5s infinite alternate;
+        }
+
+        @keyframes twinkle {
+            0% {
+                opacity: 0.3;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
     </style>
 </head>
 <body>
     <div class="container">
+        <div class="stars"></div> <!-- Starry background -->
+        <div class="clouds"></div> <!-- Clouds moving across the sky -->
+        <div class="moon"></div> <!-- Moon in the sky -->
+        
         <div class="caption" id="caption">Our Happy Moments</div>
         <div class="nav-dots" id="navDots"></div>
-
-        <!-- Controls for shuffle -->
         <div class="controls">
-            <label class="checkbox-label">
+            <label>
                 Auto Scroll
-                <input type="checkbox" class="checkbox" id="AutoScrollCheckbox" checked>
+                <input type="checkbox" id="AutoScrollCheckbox" checked>
             </label>
+        </div>
+        <div class="navigation-buttons">
+            <button id="prevBtn">&lt;</button>
+            <button id="nextBtn">&gt;</button>
         </div>
     </div>
 
     <script>
         let currentSlide = 0;
-        let timer; // Store the interval timer
-        let AutoScrollEnabled = true; // Default autoscroll enabled
-        let sunset_images = [
-            { file: 'image0.jpeg', caption: 'Making Memories' },
-            { file: 'image1.jpeg', caption: 'Making Memories' },
-            { file: 'image2.jpeg', caption: 'Making Memories' },
-            { file: 'image3.jpeg', caption: 'Making Memories' },
-            { file: 'image4.jpeg', caption: 'Making Memories' },
-            { file: 'image5.jpeg', caption: 'Making Memories' },
-            { file: 'image6.jpeg', caption: 'Making Memories' },
-            { file: 'image7.jpeg', caption: 'Making Memories' },
-            { file: 'image8.jpeg', caption: 'Making Memories' },
-            { file: 'image9.jpeg', caption: 'Making Memories' },
-            // Add all other images here manually
-        ];
+        let timer;
+        let scrollTimeMs = 5000;
+        let autoScrollEnabled = true;
+        let typingInterval;
 
-        let dated_images = [
-            { file: 'image0.jpeg', caption: 'Making Memories' },
-            { file: 'image1.jpeg', caption: 'Making Memories' },
-            { file: 'image2.jpeg', caption: 'Making Memories' },
-            { file: 'image3.jpeg', caption: 'Making Memories' },
-            { file: 'image4.jpeg', caption: 'Making Memories' },
-            { file: 'image5.jpeg', caption: 'Making Memories' },
-            { file: 'image6.jpeg', caption: 'Making Memories' },
-            { file: 'image7.jpeg', caption: 'Making Memories' },
-            { file: 'image8.jpeg', caption: 'Making Memories' },
-            { file: 'image9.jpeg', caption: 'Making Memories' }
+        let images = [
+            { file: 'image0.jpeg', caption: 'Our First Adventure' },
+            { file: 'image1.jpeg', caption: 'A Special Moment' },
+            { file: 'image2.jpeg', caption: 'Laughter and Love' },
+            { file: 'image3.jpeg', caption: 'Unforgettable Day' },
+            { file: 'image4.jpeg', caption: 'Smiles & Sunshine' },
+            { file: 'image5.jpeg', caption: 'Romantic Evening' },
+            { file: 'image6.jpeg', caption: 'Cherished Times' },
+            { file: 'image7.jpeg', caption: 'Pure Happiness' },
+            { file: 'image8.jpeg', caption: 'Dreamy Escapade' },
+            { file: 'image9.jpeg', caption: 'Forever Together' }
         ];
 
         const container = document.querySelector('.container');
         const caption = document.getElementById('caption');
         const navDots = document.getElementById('navDots');
         const autoScrollCheckbox = document.getElementById('AutoScrollCheckbox');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
 
-        // Initialize slideshow
+        function preloadImages() 
+        {
+            images.forEach(img => {
+                const image = new Image();
+                image.src = `images/${img.file}`;
+            });
+        }
+
         function initSlideshow() 
         {
-            // Create slides
-            dated_images.forEach((img, index) => {
+            preloadImages();
+            images.forEach((img, index) => {
                 const slide = document.createElement('div');
                 slide.className = 'slideshow';
-                slide.style.backgroundImage = `url(images/${img.file})`;  // Load images from 'images/' folder
+                slide.style.backgroundImage = `url(images/${img.file})`;
+                slide.setAttribute('loading', 'lazy');
                 container.insertBefore(slide, caption);
-            
-                // Create navigation dots
+                
                 const dot = document.createElement('div');
                 dot.className = 'nav-dot';
                 dot.addEventListener('click', () => {
                     showSlide(index);
-                    resetAutoCycle();  // Reset the timer when manually changing slide
+                    resetAutoCycle();
                 });
                 navDots.appendChild(dot);
             });
-            
-            // Show first slide
             showSlide(0);
-
-            // Check auto scroll checkbox
-            if (AutoScrollEnabled) 
-            {
-                startAutoCycle();
-            }
+            if (autoScrollEnabled) startAutoCycle();
         }
 
-        // Shuffle array (if you want to randomize the order)
-        function shuffleArray(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
+        function typeWriterEffect(captionText) 
+        {
+            let i = 0;
+            caption.textContent = '';  // Clear previous text
+
+            // Clear any ongoing typing effect
+            if (typingInterval) {
+                clearInterval(typingInterval);
             }
+        
+            typingInterval = setInterval(() => {
+                caption.textContent += captionText[i];
+                i++;
+                if (i === captionText.length) {
+                    clearInterval(typingInterval);  // Stop the typing animation once done
+                }
+            }, 100);  // Adjust this value for speed
         }
 
-        // Show a specific slide
-        function showSlide(index) {
+        function showSlide(index) 
+        {
+            // Take all the slides
             const slides = document.querySelectorAll('.slideshow');
+
+            // Remove the 'active' class from the current slide
             slides[currentSlide].classList.remove('active');
-            currentSlide = (index + dated_images.length) % dated_images.length;
+            
+            // Update the current slide with the newly selected index
+            currentSlide = (index + images.length) % images.length;
+            
+            // Add the 'active' class to the new slide
             slides[currentSlide].classList.add('active');
+
+            // Call the typewriter effect for the new caption
+            typeWriterEffect(images[currentSlide].caption);
             
-            // Update caption
-            caption.textContent = dated_images[currentSlide].caption;
-            
-            // Update navigation dots
+            // Update the dots at the bottom of the screen
             document.querySelectorAll('.nav-dot').forEach((dot, i) => {
                 dot.classList.toggle('active', i === currentSlide);
             });
         }
 
-        // Start auto cycling of slides
         function startAutoCycle() 
         {
             timer = setInterval(() => {
                 showSlide(currentSlide + 1);
-            }, 5000); // Change image every 5 seconds
+            }, scrollTimeMs);
         }
 
-        // Reset the auto-cycle timer (clear the previous one and start a new one)
         function resetAutoCycle() 
         {
-            clearInterval(timer);  // Stop the current interval
-            startAutoCycle();      // Restart the interval
-        }
-
-        // Start loading images
-        initSlideshow();
-
-        // Add keyboard navigation
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowLeft') {
-                showSlide(currentSlide - 1);
-                resetAutoCycle();  // Reset the timer when manually changing slide
-            }
-            if (e.key === 'ArrowRight') {
-                showSlide(currentSlide + 1);
-                resetAutoCycle();  // Reset the timer when manually changing slide
-            }
-        });
-
-        // Listen for shuffle checkbox change
-        autoScrollCheckbox.addEventListener('change', () => {
-            AutoScrollEnabled = autoScrollCheckbox.checked;            
-            clearInterval(timer);
-            if (AutoScrollEnabled) 
+            clearInterval(timer);            
+            autoScrollEnabled = autoScrollCheckbox.checked;            
+            if (autoScrollEnabled)
             {
                 startAutoCycle();
+            } 
+        }
+
+        autoScrollCheckbox.addEventListener('change', () => {
+            resetAutoCycle();
+        });
+
+        prevBtn.addEventListener('click', () => {
+            showSlide(currentSlide - 1);
+            resetAutoCycle();
+        });
+
+        nextBtn.addEventListener('click', () => {
+            showSlide(currentSlide + 1);
+            resetAutoCycle();
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') 
+            {
+                showSlide(currentSlide - 1);
+                resetAutoCycle();
+            }
+            if (e.key === 'ArrowRight') 
+            {
+                showSlide(currentSlide + 1);
+                resetAutoCycle();
             }
         });
+
+        initSlideshow();
     </script>
 </body>
 </html>
